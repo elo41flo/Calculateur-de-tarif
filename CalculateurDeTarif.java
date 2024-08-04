@@ -1,55 +1,68 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CalculateurDeTarif {
     public static void main(String[] args) {
-        // Créer la fenêtre principale
         JFrame frame = new JFrame("Calculateur de Tarif");
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Créer les composants de l'interface
         JLabel pagesLabel = new JLabel("Nombre de pages du site :");
-        pagesLabel.setBounds(20, 20, 200, 25);
-        frame.add(pagesLabel);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        frame.add(pagesLabel, gbc);
 
         JTextField pagesField = new JTextField();
-        pagesField.setBounds(220, 20, 150, 25);
-        frame.add(pagesField);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        frame.add(pagesField, gbc);
 
         JLabel heuresLabel = new JLabel("Heures passées par page :");
-        heuresLabel.setBounds(20, 60, 200, 25);
-        frame.add(heuresLabel);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        frame.add(heuresLabel, gbc);
 
         JTextField heuresField = new JTextField();
-        heuresField.setBounds(220, 60, 150, 25);
-        frame.add(heuresField);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        frame.add(heuresField, gbc);
 
         JLabel tauxLabel = new JLabel("Taux horaire (€) :");
-        tauxLabel.setBounds(20, 100, 200, 25);
-        frame.add(tauxLabel);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        frame.add(tauxLabel, gbc);
 
         JTextField tauxField = new JTextField();
-        tauxField.setBounds(220, 100, 150, 25);
-        frame.add(tauxField);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        frame.add(tauxField, gbc);
 
         JButton calculerButton = new JButton("Calculer");
-        calculerButton.setBounds(150, 140, 100, 30);
-        frame.add(calculerButton);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        frame.add(calculerButton, gbc);
 
         JTextArea resultArea = new JTextArea();
-        resultArea.setBounds(20, 180, 350, 70);
         resultArea.setEditable(false);
-        frame.add(resultArea);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH
+        frame.add(new JScrollPane(resultArea), gbc);
 
-        // Ajouter un ActionListener au bouton
         calculerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    // Lire les entrées utilisateur
                     int nombreDePages = Integer.parseInt(pagesField.getText());
                     double nombreDheures = Double.parseDouble(heuresField.getText());
                     double tauxHoraire = Double.parseDouble(tauxField.getText());
@@ -59,13 +72,9 @@ public class CalculateurDeTarif {
                         return;
                     }
 
-                    // Calculer le nombre total d'heures
                     double nombreTotalDheures = nombreDePages * nombreDheures;
-
-                    // Calculer le prix total
                     double prixTotal = nombreTotalDheures * tauxHoraire;
 
-                    // Afficher les résultats
                     resultArea.setText(String.format(
                         "Votre nombre total d'heures pour %d pages est de : %.2f heures%n" +
                         "Le tarif de votre site est de : %.2f €",
@@ -77,7 +86,6 @@ public class CalculateurDeTarif {
             }
         });
 
-        // Rendre la fenêtre visible
         frame.setVisible(true);
     }
 }
